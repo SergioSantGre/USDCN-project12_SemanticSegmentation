@@ -156,25 +156,25 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     # TODO: Implement function
     sess.run(tf.global_variables_initializer())
 
-    print('Starting training... for {} epochs'.format(epochs))
+    print('Training!!!... with: {} epochs'.format(epochs))
     print()
     for epoch in range(epochs):
-        print('Epoch : {}'.format(epoch + 1))
+        print('Epoch : {}'.format(epoch))
         loss_log = []
         for image, label in get_batches_fn(batch_size):
-            _, loss = sess.run([train_op, cross_entropy_loss],
+            aux, loss = sess.run([train_op, cross_entropy_loss],
                                 feed_dict={
                                     input_image: image,
                                     correct_label: label,
                                     keep_prob: 0.5,
-                                    learning_rate: 0.0009
+                                    learning_rate: 9e-4
                                 })
             loss_log.append('{:3f}'.format(loss))
-        print(loss_log)
+        print("Loss:", loss_log)
         #plt.plot(loss_log)
         print()
 
-    print('Done training!')
+    print('Done!')
     plt.plot(loss_log)
     return None
 
@@ -218,7 +218,7 @@ def run():
 
         logits, train_op, cross_entropy_loss = optimize(layer_output, correct_label, learning_rate, num_classes)
         # TODO: Train NN using the train_nn function
-        epochs = 40 
+        epochs = 40
         batch_size = 16
 
         saver = tf.train.Saver()
